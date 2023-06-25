@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<title>Todo App</title>
+</head>
+<body>
+	<button id="loadAll">Load All Todo</button>
+	<div id="div1"></div>
+	
+	
+	<label></label><input name="name" id="name"></input>
+	<button id="add">Add Todo</button>
+	<div id="div2"></div>
+</body>
+<script>
+
+$("#loadAll").click(function(){
+	  $.get({url: "http://localhost:8081/app/apis/todoitems", 
+		  success: function(result){
+			var all = "";
+			for( var ind in result){
+				all += result[ind]["id"]+result[ind]["name"]+"<br/>";
+			}
+	    	$("#div1").html(all);
+	  	}});
+	});
+	
+$("#add").click(function(){
+	  $.post({url: "http://localhost:8081/app/apis/addTodoItem", 
+          data: JSON.stringify({
+			name: $("#name").val()  
+		  }),
+          contentType: "application/json",
+		  success: function(result){
+			var all = "";
+			for( var ind in result){
+				all += result[ind]["id"]+result[ind]["name"]+"<br/>";
+			}
+	    	$("#div1").html(all);
+	  	}});
+	});
+</script>
+</html>
